@@ -1,6 +1,6 @@
 # Affiliate Link Helper: สัญญา Backend ฉบับเสนอ (v0.2)
 
-ยังไม่มี endpoint จริง เอกสารนี้และ `openapi.yaml` เป็นข้อเสนอสำหรับ Backend ที่จะสร้างภายหลัง แอปไม่เรียก Shopee API และไม่ได้สร้าง Affiliate URL ด้วยการเติม query เอง
+มี Backend บน Windows ตาม endpoint หลักแล้ว ดู backend/README.md ระบบปัจจุบันเป็นคิวที่ผู้ดูแลสร้างลิงก์จริงผ่านเว็บไซต์ Affiliate; `openapi.yaml` เป็นสัญญาสำหรับแอปและการเปิด HTTPS ภายหลัง แอปไม่เรียก Shopee API และไม่ได้สร้าง Affiliate URL ด้วยการเติม query เอง
 
 ## การเชื่อมต่อ
 

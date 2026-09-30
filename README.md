@@ -39,7 +39,7 @@ xcodebuild -project LinkAff.xcodeproj -scheme LinkAff \
 
 ## ตั้ง Backend ภายหลัง
 
-Backend ยังไม่ได้สร้างในงานนี้ `https://backend.example.com` เป็น placeholder ที่ไม่มี endpoint ของเรา ใช้ Backend Mode ได้เมื่อมี Backend ตาม `API_CONTRACT.md`/`openapi.yaml`
+สร้าง Backend บน PC แล้ว ดู [คู่มือ Backend](backend/README.md) และเปิดหน้าผู้ดูแลที่ http://127.0.0.1:8081 ระบบใช้ผู้ดูแลสร้างลิงก์จริงผ่านเว็บไซต์ Shopee Affiliate ยังต้องจัด HTTPS สำหรับ iPhone; `https://backend.example.com` ยังเป็น placeholder
 
 - ใส่ HTTPS origin เท่านั้น ไม่มี path `/v1` และไม่ใช้ localhost เพื่ออ้างถึง PC จาก iPhone
 - ใส่รหัสเชื่อมต่อส่วนตัวผ่าน SecureField แล้วบันทึก รหัสเก็บ Keychain ไม่เก็บใน local JSON

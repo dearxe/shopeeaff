@@ -55,4 +55,4 @@ workflow **iOS Build and Tests** run `36672202935` ของ commit `3033316` �
 - GET ที่ใช้ token ของคนอื่นต้องอ่าน job ไม่ได้แม้รู้ ID
 - verify ไม่มี ATS exception, custom trust bypass หรือ token logs
 
-ยังไม่ได้รัน HTTP integration เพราะไม่มี Backend จริงตามขอบเขตงาน และไม่สร้าง Windows Backend/Bot/test server ในรอบนี้
+Backend Windows ผ่าน 18 tests รวม HTTP timeout หลัง SQLite รับงานแล้วและ retry key เดิม พร้อม live smoke test และการหยุด/เปิดใหม่ ดู backend/README.md ยังไม่ได้ทดสอบ HTTPS กับ iPhone หรือการสร้างลิงก์ผ่าน Shopee จริง

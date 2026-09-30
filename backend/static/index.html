@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Affiliate Link Helper — ผู้ดูแล</title><link rel="stylesheet" href="/operator.css"><script src="/operator.js" defer></script></head>
+<body>
+<main>
+  <header><div class="eyebrow">AFFILIATE LINK HELPER</div><h1>ศูนย์จัดการลิงก์</h1><p>Backend บน PC • ผู้ดูแลสร้างลิงก์จากบัญชี Shopee จริง</p></header>
+  <aside class="notice">ระบบรับคิวและตรวจปลายทางแล้ว แต่ยังไม่มี Bot สร้าง Affiliate อัตโนมัติ ทุกผลสำเร็จต้องมาจากลิงก์ที่ผู้ดูแลสร้างจริง</aside>
+  <p id="message" role="status" aria-live="polite"></p>
+  <section id="login-panel" class="card">
+    <h2>เข้าสู่ระบบผู้ดูแล</h2><p>ใช้รหัสผู้ดูแลของเครื่องนี้ รหัสนี้แยกจากรหัสที่ใช้ใน iPhone</p>
+    <form id="login-form"><label>รหัสผู้ดูแล<input id="access-code" type="password" autocomplete="current-password" required></label><button type="submit">เข้าสู่ระบบ</button></form>
+    <p class="muted">คัดลอกรหัสได้ด้วย scripts/Copy-BackendCode.ps1 -Purpose operator โดยไม่ส่งรหัสในแชต</p>
+  </section>
+  <section id="dashboard" hidden>
+    <article class="card"><h2>เพิ่มงานจากลิงก์สินค้าจริง</h2><p class="muted">ใช้ทดลองคิวในเครื่องได้ก่อนติดตั้งแอป iPhone งานนี้เป็นงานจริง และจะไม่สร้างผลสำเร็จจำลอง</p>
+      <form id="create-form"><label>ลิงก์สินค้า Shopee<input id="product-source" type="url" required placeholder="https://shopee.co.th/..."></label><label>ช่องทาง<select id="share-channel"><option value="tiktok">TikTok</option><option value="facebook">Facebook</option><option value="line">LINE</option><option value="instagram">Instagram</option></select></label><button id="create-button" type="submit">ส่งเข้าคิว</button><p id="pending-note" class="muted"></p></form>
+    </article>
+    <div class="toolbar"><div><h2>คิวงาน</h2><p id="worker-label"></p></div><div><button id="refresh" type="button">ตรวจอีกครั้ง</button><button id="logout" type="button" class="secondary">ออกจากระบบ</button></div></div>
+    <p id="owner-label" class="muted"></p>
+    <p class="muted">เปิดลิงก์ต้นฉบับเพื่อตรวจสินค้า สร้าง Affiliate ในหน้า Shopee ด้วยบัญชีเจ้าของ แล้ววางผลจริงที่งานนั้น หน้านี้ไม่รับรหัสผ่าน Shopee, cookies, OTP หรือ CAPTCHA</p>
+    <div id="jobs"></div>
+  </section>
+</main>
+</body></html>

@@ -75,7 +75,7 @@ Actions → **Signed iOS Archive and Optional TestFlight Upload** → Run workfl
 
 ผู้ใช้ทั่วไปไม่อยู่ใน tailnet ส่วนตัว จึงต้องใช้ **Funnel/public HTTPS endpoint** สำหรับ API ไม่ใช้ private Serve URL ที่ reviewer เข้าไม่ได้ Funnel จำกัดชื่อไว้ใน tailnet domain และมี bandwidth limits ต้องประเมินให้ตรงโหลดจริง ดู [Funnel](https://tailscale.com/docs/features/tailscale-funnel)
 
-เมื่อมี Backend จริงที่ bind เฉพาะ loopback เช่น 127.0.0.1:8080 และตั้ง public authentication/rate limits แล้ว ผู้ดูแลจึงค่อยเปิด Funnel ด้วยคำสั่งตาม [Funnel CLI](https://tailscale.com/docs/reference/tailscale-cli/funnel) และคัดลอก URL จาก output ตอนนี้ยังไม่เปิด Funnel ไม่ติดตั้ง Tailscale ไม่ expose service และยังไม่สร้าง Windows Backend/Bot ตามขอบเขตเดิม
+เมื่อมี Backend จริงที่ bind เฉพาะ loopback เช่น 127.0.0.1:8080 และตั้ง public authentication/rate limits แล้ว ผู้ดูแลจึงค่อยเปิด Funnel ด้วยคำสั่งตาม [Funnel CLI](https://tailscale.com/docs/reference/tailscale-cli/funnel) และคัดลอก URL จาก output ตอนนี้ยังไม่เปิด Funnel ไม่ติดตั้ง Tailscale ไม่ expose service มี Windows Backend แบบผู้ดูแลที่ bind loopback แล้ว ดู backend/README.md ยังไม่มี Bot สร้างลิงก์อัตโนมัติ
 
 ## สิ่งที่ยังขาดก่อน Public App Store
 

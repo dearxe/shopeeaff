@@ -14,3 +14,8 @@ xcuserdata/
 deployment/owner-config.json
 *-iOS.zip
 artifacts/
+.venv/
+.local/
+__pycache__/
+*.pyc
+*.sqlite3*

@@ -1,6 +1,6 @@
 # Affiliate Link Helper: เตรียมเผยแพร่จริง
 
-สถานะ ณ 30 กันยายน 2026: source ต้นแบบพร้อม แต่ยังไม่มีผล build/test บน Mac, Backend จริง, signing, App Store Connect app record หรือ build ที่อัปโหลด ไม่ถือว่าแอปพร้อมใช้งานจริงหรือพร้อมเผยแพร่แล้ว
+สถานะ ณ 30 กันยายน 2026: iOS build/XCTest บน GitHub macOS CI ผ่านแล้ว และมี Backend Windows แบบผู้ดูแลผ่าน 18 tests ยังไม่มี signing, App Store Connect app record หรือ build ที่อัปโหลด ไม่ถือว่าแอปพร้อมใช้งานจริงหรือพร้อมเผยแพร่แล้ว
 
 ## ข้อมูลที่เจ้าของต้องเตรียม
 
@@ -8,7 +8,7 @@
 2. เชื่อม GitHub repository `dearxe/shopeeaff` และ push branch codex/affiliate-helper-ios สำเร็จแล้ว หน้าบัญชี Apple แสดง Join/Enroll Apple Developer Program จึงต้องสมัครให้สมาชิก active ก่อน และรับ Team ID จริง คำว่า `dearxe` ไม่ใช่ Team ID เจ้าของเป็นผู้เข้าสู่ระบบ/ยืนยันตัวตน/ชำระค่าสมาชิกเอง ไม่ส่ง password, OTP หรือ private signing keys ในแชต
 3. ชื่อผู้เผยแพร่ บุคคล/องค์กร อีเมล support ประเทศที่จะเผยแพร่ และ Bundle ID ที่เป็นของบัญชีเจ้าของ
 4. บัญชีเจ้าของ Affiliate ID `15349870042` ปัจจุบันสร้างลิงก์ผ่านเว็บ Affiliate เท่านั้น ยังไม่ได้ยืนยันสิทธิ์ Open API ต้องเลือก integration ที่บัญชี/ผู้ให้บริการอนุญาตก่อนสร้าง worker ไม่ต้องใส่ ID/secret ในแอป
-5. เจ้าของมี PC Windows ที่เปิดต่อเนื่องได้ แต่ Backend/Tailscale ยังไม่ได้ติดตั้ง ต้องสร้างและทดสอบ Backend HTTPS ตาม API_CONTRACT.md ในขั้นใหม่ก่อนเปิดใช้งานจริง
+5. เจ้าของมี PC Windows ที่เปิดต่อเนื่องได้ มี Backend local แบบผู้ดูแลแล้ว แต่ยังไม่ได้ติดตั้ง Tailscale หรือเปิด HTTPS สาธารณะ ต้องตรวจการสร้างลิงก์จริงและการเชื่อมต่อ iPhone ก่อนเปิดใช้งานจริง
 6. ชื่อ/อีเมลเจ้าของสำหรับนโยบายความเป็นส่วนตัว URL นโยบายและ support ที่เปิดได้จริง รายละเอียดข้อมูลที่ Backend เก็บและระยะเวลาเก็บ
 
 ## งานก่อนส่ง Apple

@@ -1,0 +1,35 @@
+name: Windows Backend Tests
+on:
+  workflow_dispatch:
+  push:
+    paths: ['backend/**', 'scripts/*Backend*', '.github/workflows/backend-tests.yml']
+  pull_request:
+    paths: ['backend/**', 'scripts/*Backend*', '.github/workflows/backend-tests.yml']
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install locked dependencies
+        run: |
+          python -m venv .venv
+          .venv/Scripts/python.exe -m pip install -r backend/requirements.lock
+      - name: Run storage, HTTP, authentication and destination security tests
+        run: .venv/Scripts/python.exe -m unittest discover -s backend/tests -v
+      - name: Live local service lifecycle and HTTP smoke test
+        shell: pwsh
+        run: |
+          try {
+            ./scripts/Start-Backend.ps1
+            .venv/Scripts/python.exe scripts/Smoke-Backend.py
+            if ($LASTEXITCODE -ne 0) { throw 'Live Backend check failed' }
+            ./scripts/Start-Backend.ps1
+          } finally {
+            ./scripts/Stop-Backend.ps1
+          }
