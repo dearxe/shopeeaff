@@ -1,0 +1,38 @@
+name: Signed iOS Archive and Optional TestFlight Upload
+on:
+  workflow_dispatch:
+    inputs:
+      upload_to_testflight:
+        description: Upload this tested signed build to App Store Connect (does not submit App Review)
+        required: true
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  tests:
+    uses: ./.github/workflows/ios-validate.yml
+  archive:
+    needs: tests
+    runs-on: macos-26
+    timeout-minutes: 45
+    environment: app-store
+    env:
+      APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      SIGNING_CERTIFICATE_BASE64: ${{ secrets.SIGNING_CERTIFICATE_BASE64 }}
+      SIGNING_PRIVATE_KEY_BASE64: ${{ secrets.SIGNING_PRIVATE_KEY_BASE64 }}
+      PROVISION_PROFILE_BASE64: ${{ secrets.PROVISION_PROFILE_BASE64 }}
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_PRIVATE_KEY_BASE64: ${{ secrets.ASC_PRIVATE_KEY_BASE64 }}
+      UPLOAD_TO_TESTFLIGHT: ${{ inputs.upload_to_testflight }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sign, archive and export
+        run: bash scripts/ci/archive-ios.sh
+      - name: Save signed IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Affiliate-Link-Helper-IPA
+          path: artifacts/export/*.ipa
+          retention-days: 7

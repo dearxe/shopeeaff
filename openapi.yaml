@@ -1,0 +1,279 @@
+openapi: 3.0.3
+info:
+  title: Affiliate Link Helper Backend — Proposed Contract
+  version: 0.2.0
+  description: |
+    Draft only. No deployed Backend is provided by this project.
+    The API queues owner-operated affiliate conversion jobs; it is not a Shopee API.
+    All routes require authentication. Scope jobs and idempotency to the authorized
+    device or principal. Knowledge of jobId alone never grants access.
+    Same key and identical request returns the same job; changed input returns 409.
+    Preserve idempotency records while the associated job can be retrieved.
+servers:
+  - url: https://backend.example.com
+    description: Placeholder only; replace with your HTTPS Backend origin
+security:
+  - PrivateBearer: []
+paths:
+  /v1/link-jobs:
+    post:
+      operationId: createLinkJob
+      summary: Enqueue a conversion without waiting for the Bot
+      description: |
+        Persist the idempotency mapping atomically before acknowledging a job.
+        The key and clientRequestId are scoped to the authenticated principal.
+        Repeated clientRequestId with differing input must also return 409.
+        Never enqueue again after an ambiguous timeout with the same key.
+        A replay returns the same job, with its current status.
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, format: uuid}
+          example: 37af0796-3097-47ea-a86f-d169870fedba
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateRequest'}
+            example:
+              clientRequestId: 9b2b9438-52af-41be-b7a2-42a25c4317ee
+              originalUrl: https://shope.ee/example
+              tracking:
+                channel: tiktok
+                subIdPrefixes: [ios, affiliate, shop]
+      responses:
+        '202':
+          description: Accepted; queued, processing, or waiting_for_operator
+          headers:
+            Retry-After: {$ref: '#/components/headers/RetryAfter'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Job'}
+              example:
+                jobId: job_demo_001
+                status: queued
+                originalUrl: https://shope.ee/example
+                createdAt: '2026-09-30T03:00:00Z'
+                updatedAt: '2026-09-30T03:00:00Z'
+                retryAfterSeconds: 2
+        '200':
+          description: Existing idempotent job or immediately available completed result
+          headers:
+            Retry-After: {$ref: '#/components/headers/RetryAfter'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Job'}
+              example:
+                jobId: job_demo_001
+                status: completed
+                originalUrl: https://shope.ee/example
+                affiliateUrl: https://shopee.co.th/?contract_example=not_an_affiliate_link
+                createdAt: '2026-09-30T03:00:00Z'
+                updatedAt: '2026-09-30T03:00:10Z'
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '429': {$ref: '#/components/responses/RateLimited'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+        default: {$ref: '#/components/responses/GenericError'}
+  /v1/link-jobs/{jobId}:
+    get:
+      operationId: getLinkJob
+      summary: Read an authorized job's current state
+      description: |
+        Enforce ownership on every request. Return 404 for a missing job or a job
+        owned by another principal to avoid leaking existence. Do not infer Bot failure
+        from connectivity failure. Retain readable jobs at least as long as idempotency keys.
+      parameters:
+        - name: jobId
+          in: path
+          required: true
+          schema: {type: string, minLength: 1, pattern: '^[A-Za-z0-9_-]+$'}
+          example: job_demo_001
+      responses:
+        '200':
+          description: Current job status; completed requires a validated affiliateUrl
+          headers:
+            Retry-After: {$ref: '#/components/headers/RetryAfter'}
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Job'}
+              examples:
+                operator:
+                  value:
+                    jobId: job_demo_001
+                    status: waiting_for_operator
+                    originalUrl: https://shope.ee/example
+                    createdAt: '2026-09-30T03:00:00Z'
+                    updatedAt: '2026-09-30T03:00:04Z'
+                    retryAfterSeconds: 30
+                failed:
+                  value:
+                    jobId: job_demo_001
+                    status: failed
+                    originalUrl: https://shope.ee/example
+                    createdAt: '2026-09-30T03:00:00Z'
+                    updatedAt: '2026-09-30T03:00:06Z'
+                    error: {code: DESTINATION_REJECTED, message: Destination is not an allowed product URL, retryable: false}
+                completed:
+                  value:
+                    jobId: job_demo_001
+                    status: completed
+                    originalUrl: https://shope.ee/example
+                    affiliateUrl: https://shopee.co.th/?contract_example=not_an_affiliate_link
+                    createdAt: '2026-09-30T03:00:00Z'
+                    updatedAt: '2026-09-30T03:00:10Z'
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '429': {$ref: '#/components/responses/RateLimited'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+        default: {$ref: '#/components/responses/GenericError'}
+  /v1/health:
+    get:
+      operationId: getHealth
+      summary: Report API availability and worker readiness separately
+      responses:
+        '200':
+          description: API responded; worker may still be offline or need an operator
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [apiStatus, workerStatus]
+                properties:
+                  apiStatus: {type: string, enum: [ok, degraded]}
+                  workerStatus: {type: string, enum: [ready, offline, needs_attention]}
+              example: {apiStatus: ok, workerStatus: needs_attention}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '429': {$ref: '#/components/responses/RateLimited'}
+        '503': {$ref: '#/components/responses/Unavailable'}
+        default: {$ref: '#/components/responses/GenericError'}
+components:
+  securitySchemes:
+    PrivateBearer:
+      type: http
+      scheme: bearer
+      description: Private prototype connection code only. Replace with principal-scoped session tokens before public distribution.
+  headers:
+    RetryAfter:
+      description: Minimum delay in seconds or an HTTP date. Client uses the greater delay if JSON also supplies one.
+      schema: {type: string}
+      example: '10'
+  schemas:
+    CreateRequest:
+      type: object
+      additionalProperties: false
+      required: [clientRequestId, originalUrl]
+      properties:
+        clientRequestId: {type: string, format: uuid}
+        originalUrl:
+          type: string
+          format: uri
+          description: Original HTTPS URL with query preserved. Backend validates hostname, resolves short links safely and validates final destination.
+        tracking:
+          $ref: '#/components/schemas/TrackingRequest'
+    TrackingRequest:
+      type: object
+      additionalProperties: false
+      required: [channel, subIdPrefixes]
+      description: |
+        Optional tracking intent, never proof of affiliate ownership. Backend selects
+        the owner's affiliate account from server configuration, validates supported
+        Sub ID format/length and maps these prefix hints through its supported integration.
+        Do not construct affiliate URLs locally or trust an affiliate ID supplied by a client.
+      properties:
+        channel: {type: string, enum: [tiktok, facebook, line, instagram]}
+        subIdPrefixes:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items: {type: string, enum: [ios, affiliate, shop]}
+          example: [ios, affiliate, shop]
+    Job:
+      type: object
+      required: [jobId, status, originalUrl, createdAt, updatedAt]
+      description: |
+        completed requires affiliateUrl and must not include error. Non-completed jobs
+        must not contain a non-null affiliateUrl. failed requires error.
+        originalUrl must match the submitted value. jobId and createdAt are immutable.
+        updatedAt must be at or after createdAt. Terminal states do not transition again.
+        Affiliate URL must use HTTPS and an agreed allowlisted hostname, with no credentials.
+      properties:
+        jobId: {type: string, minLength: 1, pattern: '^[A-Za-z0-9_-]+$'}
+        status: {type: string, enum: [queued, processing, waiting_for_operator, completed, failed]}
+        originalUrl: {type: string, format: uri}
+        affiliateUrl: {type: string, format: uri, nullable: true}
+        createdAt: {type: string, format: date-time}
+        updatedAt: {type: string, format: date-time}
+        retryAfterSeconds: {type: number, minimum: 0, nullable: true}
+        error:
+          allOf: [{$ref: '#/components/schemas/ErrorDetail'}]
+          nullable: true
+    ErrorDetail:
+      type: object
+      required: [code, message, retryable]
+      properties:
+        code: {type: string}
+        message: {type: string}
+        retryable: {type: boolean}
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error: {$ref: '#/components/schemas/ErrorDetail'}
+  responses:
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: INVALID_URL, message: Invalid product URL, retryable: false}}
+    Unauthorized:
+      description: Missing or invalid credentials
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: UNAUTHORIZED, message: Authentication required, retryable: false}}
+    Forbidden:
+      description: Principal has no API permission
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: FORBIDDEN, message: Permission denied, retryable: false}}
+    NotFound:
+      description: Job missing or not owned by this principal
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: NOT_FOUND, message: Job not found, retryable: false}}
+    Conflict:
+      description: Idempotency key or clientRequestId reused with different input
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: IDEMPOTENCY_CONFLICT, message: Key reused with different input, retryable: false}}
+    RateLimited:
+      description: Rate limited; do not create a fresh job or key
+      headers:
+        Retry-After: {$ref: '#/components/headers/RetryAfter'}
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: RATE_LIMITED, message: Try again later, retryable: true}}
+    Unavailable:
+      description: API unavailable; job state is unchanged or unknown
+      headers:
+        Retry-After: {$ref: '#/components/headers/RetryAfter'}
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}
+          example: {error: {code: API_UNAVAILABLE, message: Temporarily unavailable, retryable: true}}
+    GenericError:
+      description: All other HTTP errors use the same envelope
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/ErrorEnvelope'}

@@ -1,0 +1,26 @@
+name: iOS Build and Tests
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    paths: ['LinkAff/**', 'LinkAffTests/**', 'LinkAff.xcodeproj/**', 'scripts/ci/**', '.github/workflows/**']
+  pull_request:
+    paths: ['LinkAff/**', 'LinkAffTests/**', 'LinkAff.xcodeproj/**', 'scripts/ci/**', '.github/workflows/**']
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: macos-26
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test on iPhone Simulator
+        run: bash scripts/ci/validate-ios.sh
+      - name: Keep actual build and test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-test-results
+          path: artifacts/
+          retention-days: 7
+          if-no-files-found: warn

@@ -1,0 +1,16 @@
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+.DS_Store
+*.ipa
+*.xcarchive
+.signing/
+*.p12
+*.p8
+*.key
+*.pem
+*.mobileprovision
+deployment/owner-config.json
+*-iOS.zip
+artifacts/
