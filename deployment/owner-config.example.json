@@ -11,7 +11,7 @@
   "ownerHasMac": false,
   "ownerReportsAppleDeveloperMembership": false,
   "appleMembershipStatus": "portal-shows-enroll-not-active-membership",
-  "githubWriteAccessConnected": false,
+  "githubWriteAccessConnected": true,
   "ownerHasAlwaysOnWindowsPC": true,
   "affiliateIntegrationCurrentlyAvailable": "affiliate-web-portal",
   "tailscaleInstalled": false,

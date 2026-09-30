@@ -1,4 +1,5 @@
 name: iOS Build and Tests
+# Validate on GitHub-hosted macOS; does not require Apple signing credentials.
 on:
   workflow_dispatch:
   workflow_call:

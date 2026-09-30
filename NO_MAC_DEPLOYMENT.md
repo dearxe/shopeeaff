@@ -28,7 +28,7 @@ Affiliate ID ไม่ถูกส่งเป็น credential และไม�
 
 workflow นี้ยังไม่เคยรันใน session นี้ การมีไฟล์ workflow ไม่ใช่ผล build ผ่าน Private repositories ใช้ allowance/ค่าใช้จ่ายตาม GitHub plan ตรวจ usage ก่อนรันต่อเนื่อง [GitHub-hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 
-repository URL ที่ได้รับคือ `https://github.com/dearxe/shopeeaff.git` ตรวจ remote แล้วไม่มี refs มี local commit บน branch `codex/affiliate-helper-ios` แต่ push ไม่สำเร็จเพราะไม่มี GitHub credentials สำหรับเขียนในเครื่องนี้ ไม่ขอให้ส่ง token ในแชต เชื่อม GitHub ผ่านเครื่องมือที่ได้รับอนุญาต หรืออัปโหลด source จาก ZIP ผ่านบัญชี GitHub ของเจ้าของก่อนจึงรัน Actions ได้
+repository URL คือ `https://github.com/dearxe/shopeeaff.git` เชื่อม GitHub ผ่าน browser login ด้วยบัญชี dearxe และ push branch `codex/affiliate-helper-ios` สำเร็จแล้ว วิธี device code ของ bundled credential manager เกิด incorrect_device_code จึงเปลี่ยนสคริปต์ Login-GitHub.ps1 ให้ใช้ browser login เป็นค่าเริ่มต้น ไม่ขอให้ส่ง token ในแชต ผล build/test ยังต้องตรวจ GitHub Actions ต่อ
 
 ## Signing โดยไม่ใช้ Mac ส่วนตัว
 

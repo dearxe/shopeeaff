@@ -9,7 +9,7 @@
 - การตรวจ OpenAPI นี้เป็น reference check ไม่ใช่ YAML parser หรือ OpenAPI validator และการตรวจ source ไม่พิสูจน์ runtime behavior
 - หลังปรับแบรนด์ ตรวจผ่านเพิ่มเติม: Bundle ID ใหม่ใน project, JSON ของ asset catalogs/config, file paths ของภาพ, AppIcon 1024×1024 RGB ไม่มี alpha และ PowerShell scripts ผ่าน syntax parser
 - เพิ่ม workflow macOS build/test และ signing/TestFlight แต่ยังไม่รัน GitHub Actions ไม่มีผล build/test ผ่านเพิ่ม การอ่าน YAML ตรวจ reference ไม่ใช่การยืนยัน syntax ของ workflows; ต้องตรวจกับ GitHub เมื่ออัปโหลด
-- Git ls-remote ของ repository ที่เจ้าของระบุสำเร็จแต่ไม่พบ refs; สร้าง initial local commit แล้ว push ไม่สำเร็จเพราะไม่มี write authentication จึงยังไม่มี source/workflow บน GitHub ที่ยืนยันว่าอัปโหลดแล้ว
+- เชื่อมบัญชี dearxe ด้วย Git Credential Manager browser login และ push source/workflows ไปยัง branch codex/affiliate-helper-ios สำเร็จแล้ว ยังไม่มีผล build/tests ผ่านจาก CI
 
 ## XCTest ที่เขียนไว้ (ยังไม่ได้รัน)
 
