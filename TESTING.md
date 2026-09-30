@@ -1,5 +1,11 @@
 # ผลการตรวจและแผนทดสอบ
 
+## ผลล่าสุดจาก GitHub-hosted Mac (30 กันยายน 2026)
+
+workflow **iOS Build and Tests** run `36672202935` ของ commit `3033316` จบด้วย `conclusion: success` ตรวจผ่าน GitHub API จริง: https://github.com/dearxe/shopeeaff/actions/runs/36672202935 workflow รัน xcodebuild test บน iPhone Simulator และตรวจ iOS SDK >=26 ก่อนเริ่ม จึงยืนยัน build และ XCTest ของ source ณ commit นี้ผ่านแล้ว
+
+ยังไม่ได้ทดสอบ UI ด้วยมือบน Simulator, iPhone จริง, HTTP integration กับ Backend จริง, signing/archive/IPA, TestFlight หรือ App Store ข้อมูลส่วนล่างเป็นบันทึกตรวจเดิมก่อน CI รอบนี้ ข้อความว่า tests ยังไม่ได้รันในบันทึกเดิมถูกแทนด้วยผล CI ล่าสุดนี้
+
 ## ตรวจจริงในสภาพแวดล้อมนี้ (Windows, 30 กันยายน 2026)
 
 - อ่าน workspace เดิม: มีเพียง `.git` ไม่มี source เดิมให้แก้ทับ

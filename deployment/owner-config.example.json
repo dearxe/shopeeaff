@@ -12,6 +12,8 @@
   "ownerReportsAppleDeveloperMembership": false,
   "appleMembershipStatus": "portal-shows-enroll-not-active-membership",
   "githubWriteAccessConnected": true,
+  "simulatorBuildAndTestsPassed": true,
+  "verifiedCiRunUrl": "https://github.com/dearxe/shopeeaff/actions/runs/36672202935",
   "ownerHasAlwaysOnWindowsPC": true,
   "affiliateIntegrationCurrentlyAvailable": "affiliate-web-portal",
   "tailscaleInstalled": false,

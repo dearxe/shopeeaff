@@ -2,11 +2,11 @@
 
 Native SwiftUI สำหรับ iOS 17 ขึ้นไป ภาษาไทย 3 แท็บ สร้างลิงก์ / ประวัติ / ตั้งค่า รองรับ Dark Mode และใช้ system fonts สำหรับ Dynamic Type ไม่มี external dependency ไม่ต้องมี server เพื่อทดลอง Mock Mode
 
-เจ้าของไม่มี Mac ส่วนตัว: เริ่มจาก `NO_MAC_DEPLOYMENT.md` เพื่อใช้ GitHub Actions บน macOS สำหรับ build/test และเตรียม signing/IPA/TestFlight repository ที่ระบุคือ https://github.com/dearxe/shopeeaff.git ยังไม่มีผล CI ที่ยืนยันผ่านในงานนี้
+เจ้าของไม่มี Mac ส่วนตัว: เริ่มจาก `NO_MAC_DEPLOYMENT.md` เพื่อใช้ GitHub Actions บน macOS สำหรับ build/test และเตรียม signing/IPA/TestFlight repository คือ https://github.com/dearxe/shopeeaff.git CI build/test รอบแรกผ่านแล้ว
 
 ชื่อแอปคือ Affiliate Link Helper, Bundle ID `com.simplelifesolution.affiliatehelper` มีไอคอนขาว–ส้มแบบ Lux และช่องทาง TikTok/Facebook/LINE/Instagram แล้ว ชื่อโฟลเดอร์/module/scheme ยังคง LinkAff การเลือกช่องทางส่ง tracking intent ไป Backend; แชร์ผ่าน iOS Share Sheet ตามที่แต่ละแอปรองรับ ไม่ได้โพสต์อัตโนมัติหรือรับประกันว่า TikTok/Instagram รองรับการแชร์ URL โดยตรง
 
-**สถานะส่งมอบ:** มี source, Xcode project, Mock/HTTP Service, XCTest และ proposed API contract ครบ แต่ยังไม่ได้ build หรือรันบน iOS เนื่องจากเครื่องที่สร้างงานนี้เป็น Windows และไม่มี Swift/Xcode อ่านผลตรวจจริงใน `TESTING.md` ก่อนนำไปใช้
+**สถานะส่งมอบ:** มี source, Xcode project, Mock/HTTP Service, XCTest และ proposed API contract ครบ Build และ XCTest ผ่านบน iPhone Simulator ของ GitHub-hosted Mac แล้วเมื่อ 30 กันยายน 2026: https://github.com/dearxe/shopeeaff/actions/runs/36672202935 ยังไม่ได้ทดสอบ iPhone จริง, signing, TestFlight หรือ Backend จริง อ่านรายละเอียดใน `TESTING.md`
 
 ## เปิดบน Mac และ Simulator
 
