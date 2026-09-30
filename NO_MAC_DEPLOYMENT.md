@@ -1,6 +1,6 @@
 # Affiliate Link Helper: build และเผยแพร่จาก Windows
 
-เจ้าของยืนยันว่ามี Apple Developer Program, GitHub และ PC Windows ที่เปิดต่อเนื่องได้แล้ว ไม่ต้องซื้อ Mac เพื่อรัน pipeline นี้ ใช้ GitHub-hosted macOS runner; ต้องมี GitHub repository และ signing material ก่อนเริ่ม [GitHub runner documentation](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
+เจ้าของมี GitHub และ PC Windows ที่เปิดต่อเนื่องได้แล้ว หน้าบัญชี Apple ที่เจ้าของส่งมายังแสดง Join/Enroll the Apple Developer Program จึงยังไม่มีสมาชิกที่พร้อมใช้เผยแพร่และยังไม่มี Team ID ที่ยืนยัน ไม่ต้องซื้อ Mac เพื่อรัน pipeline นี้ ใช้ GitHub-hosted macOS runner; ต้องมี repository access และ signing material ก่อนเริ่ม [GitHub runner documentation](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 
 ## สิ่งที่ตั้งแล้ว
 
@@ -28,7 +28,11 @@ Affiliate ID ไม่ถูกส่งเป็น credential และไม�
 
 workflow นี้ยังไม่เคยรันใน session นี้ การมีไฟล์ workflow ไม่ใช่ผล build ผ่าน Private repositories ใช้ allowance/ค่าใช้จ่ายตาม GitHub plan ตรวจ usage ก่อนรันต่อเนื่อง [GitHub-hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)
 
+repository URL ที่ได้รับคือ `https://github.com/dearxe/shopeeaff.git` ตรวจ remote แล้วไม่มี refs มี local commit บน branch `codex/affiliate-helper-ios` แต่ push ไม่สำเร็จเพราะไม่มี GitHub credentials สำหรับเขียนในเครื่องนี้ ไม่ขอให้ส่ง token ในแชต เชื่อม GitHub ผ่านเครื่องมือที่ได้รับอนุญาต หรืออัปโหลด source จาก ZIP ผ่านบัญชี GitHub ของเจ้าของก่อนจึงรัน Actions ได้
+
 ## Signing โดยไม่ใช้ Mac ส่วนตัว
+
+สมัคร Apple Developer Program ให้เสร็จก่อน ผ่าน [Apple enrollment](https://developer.apple.com/programs/enroll/) เจ้าของเป็นผู้ยืนยันตัวตน/ยอมรับข้อตกลง/ชำระค่าสมาชิกเอง เมื่อสมาชิก active เปิด Membership details แล้วรับ Team ID 10 ตัว ตาม [Team ID help](https://developer.apple.com/help/glossary/team-id/) ขณะนี้ยังไม่สร้าง signing material เพราะไม่มีสมาชิก active/Team ID ที่ยืนยัน
 
 หากมี distribution certificate และ private key อยู่แล้ว ให้ใช้คู่เดิมที่ได้รับอนุญาต ไม่ต้องสร้างใหม่ หากไม่มี สามารถสร้าง CSR ด้วยสคริปต์ PowerShell 7.2+ บน Windows:
 

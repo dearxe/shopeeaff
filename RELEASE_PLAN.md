@@ -5,7 +5,7 @@
 ## ข้อมูลที่เจ้าของต้องเตรียม
 
 1. เจ้าของไม่มี Mac; เตรียม GitHub-hosted macOS workflow แล้วตาม NO_MAC_DEPLOYMENT.md ยังต้องรันจริงและทดสอบบน iPhone
-2. เจ้าของแจ้งว่ามี Apple Developer Program และ GitHub แล้ว repository คือ `dearxe/shopeeaff` ยังต้องตรวจสิทธิ์และรับ Team ID จริง คำว่า `dearxe` ไม่ใช่ Team ID เจ้าของเป็นผู้เข้าสู่ระบบ/ยืนยันตัวตนเอง ไม่ส่ง Apple password, OTP หรือ private signing keys ในแชต
+2. เจ้าของมี GitHub repository `dearxe/shopeeaff` แต่ push ยังไม่สำเร็จเพราะยังไม่มี write credentials หน้าบัญชี Apple แสดง Join/Enroll Apple Developer Program จึงต้องสมัครให้สมาชิก active ก่อน และรับ Team ID จริง คำว่า `dearxe` ไม่ใช่ Team ID เจ้าของเป็นผู้เข้าสู่ระบบ/ยืนยันตัวตน/ชำระค่าสมาชิกเอง ไม่ส่ง password, OTP หรือ private signing keys ในแชต
 3. ชื่อผู้เผยแพร่ บุคคล/องค์กร อีเมล support ประเทศที่จะเผยแพร่ และ Bundle ID ที่เป็นของบัญชีเจ้าของ
 4. บัญชีเจ้าของ Affiliate ID `15349870042` ปัจจุบันสร้างลิงก์ผ่านเว็บ Affiliate เท่านั้น ยังไม่ได้ยืนยันสิทธิ์ Open API ต้องเลือก integration ที่บัญชี/ผู้ให้บริการอนุญาตก่อนสร้าง worker ไม่ต้องใส่ ID/secret ในแอป
 5. เจ้าของมี PC Windows ที่เปิดต่อเนื่องได้ แต่ Backend/Tailscale ยังไม่ได้ติดตั้ง ต้องสร้างและทดสอบ Backend HTTPS ตาม API_CONTRACT.md ในขั้นใหม่ก่อนเปิดใช้งานจริง
